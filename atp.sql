@@ -7,7 +7,7 @@ grant create session to Foxtrot; --user can log in
 
 grant create table to Foxtrot; -- user can create tables
 
-select default_tablespace from dba_users where  username = 'FOXTROT'; --DEFAULT tablespace for foxtrot is data
+SELECT default_tablespace FROM dba_users WHERE username = 'FOXTROT'; --DEFAULT tablespace for foxtrot is data
 
 alter user foxtrot quota unlimited on data; --allow user to store data in tables
 
@@ -20,7 +20,7 @@ grant create session to charlie identified by "TOP_SECRET";
 -- ORA-01031: insufficient privileges - impossible on atp?
 
 --switch user
-alter session set current_schema = foxtrot
+ALTER session SET current_schema = foxtrot
 
 -- create table
 CREATE TABLE foxtrot.phonetic
@@ -32,25 +32,11 @@ phonic varchar(255)
 );
 
 -- Add some data
--- TODO: Figure out how to get the rest in there without too much manual labour: 
-INSERT INTO foxtrot.phonetic
-VALUES
-    ('A',
-	'*-',
-    'Alfa',
-    '(AL-FAH)');
-INSERT INTO foxtrot.phonetic
-VALUES
-    ('B',
-	'-***',
-    'Bravo',
-    '(BRAH-VOH)');
-INSERT INTO foxtrot.phonetic
-VALUES
-    ('C',
-	'-*-*',
-    'Charlie',
-    '(CHAR-LEE)');
+-- TODO: Figure out how to get the rest in there without too much manual labour:
+-- https://upload.wikimedia.org/wikipedia/commons/e/e0/FAA_Phonetic_and_Morse_Chart2.svg
+INSERT INTO foxtrot.phonetic VALUES ('A', '*-', 'Alfa', '(AL-FAH)');
+INSERT INTO foxtrot.phonetic VALUES ('B', '-***', 'Bravo', '(BRAH-VOH)');
+INSERT INTO foxtrot.phonetic VALUES ('C', '-*-*', 'Charlie', '(CHAR-LEE)');
 commit;
 
 select * from foxtrot.phonetic;
