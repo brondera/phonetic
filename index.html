@@ -2,22 +2,10 @@
 <html>
 <head>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-
 <script>
-$(document).ready(function(callback) {
-  var phonyArray = [];
-  var value = 0;
-
-/*
-    $.ajax({
-        url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
-    }).then(function(res) {
-       $('.character').append(res.items[0].character);
-       $('.morsecode').append(res.items[0].morsecode);
-       $('.telephony').append(res.items[0].telephony);
-       $('.phonic').append(res.items[0].phonic);
-    });
-*/
+  $(document).ready(function(callback) {
+    var phonyArray = [];
+    var value = 0;
 
     $.ajax({
       url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
@@ -28,8 +16,6 @@ $(document).ready(function(callback) {
             if(callback) callback();  //check before calling it. 
     });
 
-
-
     $("button").click(function(){
       value = $('#myInput').val();
       //TODO: handle 'undefined' error
@@ -38,20 +24,19 @@ $(document).ready(function(callback) {
       $('.telephony').append(phonyArray[value].telephony);
       $('.phonic').append(phonyArray[value].phonic);
     });
-});
+  });
 </script>
 
 </head>
 <body>
 	<div>
-        <p class="character">character: </p>
-        <p class="morsecode">morsecode: </p>
-        <p class="telephony">telephony: </p>
-        <p class="phonic">phonic: </p>
+    <p class="character">character: </p>
+    <p class="morsecode">morsecode: </p>
+    <p class="telephony">telephony: </p>
+    <p class="phonic">phonic: </p>
 
-        <input type="number" id="myInput" value="0"><br>
-        <button>Click me to append the 1st character retrieved</button>
-    </div>
-
+    <input type="number" id="myInput" value="0"><br>
+    <button>Click me to append the 1st character retrieved</button>
+  </div>
 </body>
 </html>
