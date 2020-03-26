@@ -16,6 +16,14 @@
             if(callback) callback();  //check before calling it. 
     });
 
+    //TODO: add some cleanup for non- A-Z characters here (user can add to url)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('userString')) {
+      $('#urlparam').text(urlParams.get('userString'));
+    };
+  });
+
+/*  // TODO: where to put this exactly? Array must bne populated
     $("button").click(function(){
       value = $('#myInput').val();
       //TODO: handle 'undefined' error
@@ -24,7 +32,27 @@
       $('.telephony').append(phonyArray[value].telephony);
       $('.phonic').append(phonyArray[value].phonic);
     });
-  });
+*/
+
+
+/* changed to form validation instead, below is obsolete?
+  function validatorFunction() {
+    var str, text;
+
+    // Get the value of the input field with id="userString"
+    str = document.getElementById("userString").value;
+    var re = new RegExp("[a-zA-Z]+");
+
+    // Validate that str is A-Z
+    if (re.test(str)) {
+      text = "Input OK";
+    } else {
+      text = "Input not valid";
+    }
+    document.getElementById("validation").innerHTML = text;
+  }
+*/
+
 </script>
 
 </head>
@@ -35,8 +63,14 @@
     <p class="telephony">telephony: </p>
     <p class="phonic">phonic: </p>
 
-    <input type="number" id="myInput" value="0"><br>
-    <button>Click me to append the 1st character retrieved</button>
+    <form onsubmit="validatorFunction()">
+      <label for="userString">Please input a string in characters A-Z:</label><br>
+      <input type="text" name="userString" id="userString" name="country_code" pattern="[a-zA-Z]+" title="Please only use characters A-Z" required>
+      <input type="submit" value="Submit">
+    </form>
+
+    <p id="urlparam"></p>
+
   </div>
 </body>
 </html>
