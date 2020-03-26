@@ -11,7 +11,102 @@
       url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
     }).then(function(res) {
             $.each(res.items, function( i, itemData ) {
+                phonyArray[i] = itemData;<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script>
+  var phonyArray = [];
+  var value = 0;
+  $(document).ready(function(callback) {
+
+
+    $.ajax({
+      url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
+    }).then(function(res) {
+            $.each(res.items, function( i, itemData ) {
                 phonyArray[i] = itemData;
+            });
+            if(callback) callback();  //check before calling it. 
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('userString')) {
+              str2 = urlParams.get('userString');
+              str2 = str2.toUpperCase();
+              for (var i = 0; i < str2.length; i++) {
+                //console.log(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].telephony);
+                //$('#urlparam').append(phonyArray[i].character);
+                $('.telephony').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].telephony + " ");
+                $('.character').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].character + " ");
+                $('.morsecode').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].morsecode + " ");
+                $('.phonic').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].phonic + " ");
+              }
+              
+            };
+
+            //console.log(phonyArray[value].phonic);
+            //console.log(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === 'A'))].telephony);
+    });
+
+  });
+/*
+    //TODO: add some cleanup for non- A-Z characters here (user can add to url)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('userString')) {
+      $('#urlparam').text(urlParams.get('userString'));
+    };
+*/
+/*  // TODO: where to put this exactly? Array must be populated
+    $("button").click(function(){
+      value = $('#myInput').val();
+      //TODO: handle 'undefined' error
+      $('.character').append(phonyArray[value].character);
+      $('.morsecode').append(phonyArray[value].morsecode);
+      $('.telephony').append(phonyArray[value].telephony);
+      $('.phonic').append(phonyArray[value].phonic);
+    });
+*/
+
+
+/* changed to form validation instead, below is obsolete?
+  function validatorFunction() {
+    var str, text;
+
+    // Get the value of the input field with id="userString"
+    str = document.getElementById("userString").value;
+    var re = new RegExp("[a-zA-Z]+");
+
+    // Validate that str is A-Z
+    if (re.test(str)) {
+      text = "Input OK";
+    } else {
+      text = "Input not valid";
+    }
+    document.getElementById("validation").innerHTML = text;
+  }
+*/
+
+</script>
+
+</head>
+<body>
+	<div>
+    <p class="character">character: </p>
+    <p class="morsecode">morsecode: </p>
+    <p class="telephony">telephony: </p>
+    <p class="phonic">phonic: </p>
+
+    <form onsubmit="validatorFunction()">
+      <label for="userString">Please input a string in characters A-Z:</label><br>
+      <input type="text" name="userString" id="userString" pattern="[a-zA-Z]+" title="Please only use characters A-Z" required>
+      <input type="submit" value="Submit">
+    </form>
+
+    <p id="urlparam"></p>
+
+  </div>
+</body>
+</html>
             });
             if(callback) callback();  //check before calling it. 
     });
