@@ -1,171 +1,115 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
-<script>
-  $(document).ready(function(callback) {
-    var phonyArray = [];
-    var value = 0;
-
-    $.ajax({
-      url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
-    }).then(function(res) {
-            $.each(res.items, function( i, itemData ) {
-                phonyArray[i] = itemData;<!DOCTYPE html>
+<html lang="sv">
+<title>brondera.com - Bravo!</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-green.css">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto'>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+  html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
+</style>
 <html>
 <head>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
 <script>
   var phonyArray = [];
-  var value = 0;
   $(document).ready(function(callback) {
-
-
     $.ajax({
+      //call APT table using ORDS API (published by readonly user):
       url: "https://dx4l1ex2ewgtxe9-db202003051643.adb.eu-frankfurt-1.oraclecloudapps.com/ords/bravo/phonetic/readonly"
     }).then(function(res) {
-            $.each(res.items, function( i, itemData ) {
-                phonyArray[i] = itemData;
-            });
-            if(callback) callback();  //check before calling it. 
+        $.each(res.items, function( i, itemData ) {
+            //populate phonyArray with data from table API
+            phonyArray[i] = itemData;
+        });
+        if(callback) callback();  //check before calling it. 
 
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('userString')) {
-              str2 = urlParams.get('userString');
-              str2 = str2.toUpperCase();
-              for (var i = 0; i < str2.length; i++) {
-                //console.log(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].telephony);
-                //$('#urlparam').append(phonyArray[i].character);
-                $('.telephony').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].telephony + " ");
-                $('.character').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].character + " ");
-                $('.morsecode').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].morsecode + " ");
-                $('.phonic').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].phonic + " ");
-              }
-              
-            };
-
-            //console.log(phonyArray[value].phonic);
-            //console.log(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === 'A'))].telephony);
+        //check for parameters in url
+        const urlParams = new URLSearchParams(window.location.search);
+        //if there is a string parameter, process it
+        if (urlParams.has('userString')) {
+          str2 = urlParams.get('userString');
+          str2 = str2.toUpperCase(); //TODO: trim that string
+          for (var i = 0; i < str2.length; i++) {
+            //run everey character in the strin against the phonyarray
+            $('.telephony').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].telephony + " ");
+            $('.character').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].character + " ");
+            $('.morsecode').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].morsecode + " ");
+            $('.phonic').append(phonyArray[phonyArray.indexOf(phonyArray.find(o => o.character === str2.charAt(i)))].phonic + " ");
+          }
+          //clear URL string - or not? undecided
+          //window.history.replaceState(null, null, window.location.pathname);
+        };
     });
 
   });
-/*
-    //TODO: add some cleanup for non- A-Z characters here (user can add to url)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('userString')) {
-      $('#urlparam').text(urlParams.get('userString'));
-    };
-*/
-/*  // TODO: where to put this exactly? Array must be populated
-    $("button").click(function(){
-      value = $('#myInput').val();
-      //TODO: handle 'undefined' error
-      $('.character').append(phonyArray[value].character);
-      $('.morsecode').append(phonyArray[value].morsecode);
-      $('.telephony').append(phonyArray[value].telephony);
-      $('.phonic').append(phonyArray[value].phonic);
-    });
-*/
-
-
-/* changed to form validation instead, below is obsolete?
-  function validatorFunction() {
-    var str, text;
-
-    // Get the value of the input field with id="userString"
-    str = document.getElementById("userString").value;
-    var re = new RegExp("[a-zA-Z]+");
-
-    // Validate that str is A-Z
-    if (re.test(str)) {
-      text = "Input OK";
-    } else {
-      text = "Input not valid";
-    }
-    document.getElementById("validation").innerHTML = text;
-  }
-*/
-
+  function myClearFcn() {
+    //clear result element
+    $(".character").html("Character: ");
+    $(".morsecode").html("Morsecode: ");
+    $(".telephony").html("Telephony: ");
+    $(".phonic").html("Phonic: ");
+    //clear URL string
+    window.history.replaceState(null, null, window.location.pathname);
+  };
+  
 </script>
-
 </head>
-<body>
-	<div>
-    <p class="character">character: </p>
-    <p class="morsecode">morsecode: </p>
-    <p class="telephony">telephony: </p>
-    <p class="phonic">phonic: </p>
+<body class="w3-theme-l5">
 
-    <form onsubmit="validatorFunction()">
-      <label for="userString">Please input a string in characters A-Z:</label><br>
-      <input type="text" name="userString" id="userString" pattern="[a-zA-Z]+" title="Please only use characters A-Z" required>
-      <input type="submit" value="Submit">
-    </form>
-
-    <p id="urlparam"></p>
-
+  <!-- Page Container -->
+  <div class="w3-container w3-center w3-margin-top">
+    <h1>Bravo!</h1>
+    <p>A demo page that turns Your strings into radio language.</p>
   </div>
-</body>
-</html>
-            });
-            if(callback) callback();  //check before calling it. 
-    });
-
-    //TODO: add some cleanup for non- A-Z characters here (user can add to url)
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has('userString')) {
-      $('#urlparam').text(urlParams.get('userString'));
-    };
-  });
-
-/*  // TODO: where to put this exactly? Array must bne populated
-    $("button").click(function(){
-      value = $('#myInput').val();
-      //TODO: handle 'undefined' error
-      $('.character').append(phonyArray[value].character);
-      $('.morsecode').append(phonyArray[value].morsecode);
-      $('.telephony').append(phonyArray[value].telephony);
-      $('.phonic').append(phonyArray[value].phonic);
-    });
-*/
-
-
-/* changed to form validation instead, below is obsolete?
-  function validatorFunction() {
-    var str, text;
-
-    // Get the value of the input field with id="userString"
-    str = document.getElementById("userString").value;
-    var re = new RegExp("[a-zA-Z]+");
-
-    // Validate that str is A-Z
-    if (re.test(str)) {
-      text = "Input OK";
-    } else {
-      text = "Input not valid";
-    }
-    document.getElementById("validation").innerHTML = text;
-  }
-*/
-
-</script>
-
-</head>
-<body>
-	<div>
-    <p class="character">character: </p>
-    <p class="morsecode">morsecode: </p>
-    <p class="telephony">telephony: </p>
-    <p class="phonic">phonic: </p>
-
-    <form onsubmit="validatorFunction()">
+  <div class="w3-white w3-text-grey w3-card-4 w3-center w3-margin">
+    <div class="w3-container w3-theme">
+      <h2>Input Form</h2>
+    </div>
+    <!-- TODO: Might change to POST method? -->
+    <form class="w3-container w3-card-4">
+      <p>
       <label for="userString">Please input a string in characters A-Z:</label><br>
-      <input type="text" name="userString" id="userString" name="country_code" pattern="[a-zA-Z]+" title="Please only use characters A-Z" required>
-      <input type="submit" value="Submit">
+      <input class="w3-input w3-border" type="text" name="userString" id="userString" pattern="[a-zA-Z]+" title="Please only use characters A-Z" required></p>
+      <input class="w3-btn w3-theme-d4 w3-margin-bottom" type="submit" value="Submit">
     </form>
+   </div>
 
-    <p id="urlparam"></p>
+   <div class="w3-white w3-text-grey w3-card-4 w3-center w3-margin">
+    <div class="w3-container w3-theme">
+      <h2>Output</h2>
+    </div>
 
-  </div>
+    <div class="w3-left-align w3-margin-left"><h4 class="character">Character: </h4></div>
+    <div class="w3-left-align w3-margin-left"><h4 class="morsecode">Morsecode: </h4></div>
+    <div class="w3-left-align w3-margin-left"><h4 class="telephony">Telephony: </h4></div>
+    <div class="w3-left-align w3-margin-left"><h4 class="phonic">Phonic: </h4></div>
+
+    <div class="w3-container">
+      <!-- TODO: Make this actually clear something -->
+      <button onClick="myClearFcn()" class="w3-btn w3-theme-d4 w3-margin-bottom">CLEAR</button>
+    </div>
+   </div>
+
+   <footer class="w3-container w3-theme w3-center w3-margin-top">
+    <p>Find me on social media:</p>
+    <a href="https://twitter.com/axelbronder/"><i class="fab fa-twitter w3-xxlarge w3-margin-right w3-hover-opacity"></i></a>
+    <a href="https://github.com/brondera/"><i class="fab fa-github w3-xxlarge w3-margin-right w3-hover-opacity"></i></a>
+    <a href="https://www.linkedin.com/in/brondera/"><i class="fab fa-linkedin w3-xxlarge w3-hover-opacity"></i></a>
+    <p>
+      Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a>
+      and <a href="https://www.oracle.com/cloud/free/" target="_blank">OCI Always Free Tier</a>
+    </p>
+    <p><a href="https://www.brondera.com">Back to brondera.com</a></p>
+  </footer>
 </body>
 </html>
