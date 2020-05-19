@@ -1,6 +1,6 @@
 -- DB stuff for Bravo! demo application, on Always Free ATP
 
--- Create db user foxtrot --
+-- Create db user foxtrot (schema owner) --
 CREATE USER foxtrot IDENTIFIED BY "TOP_SECRET";
 
 grant create session to Foxtrot; --user can log in
@@ -13,8 +13,8 @@ alter user foxtrot quota unlimited on data; --allow user to store data in tables
 
 grant create view, create procedure, create sequence to foxtrot;
 
--- Now create app user charlie --
-grant create session to charlie identified by "TOP_SECRET";
+-- Now create app user bravo - readonly user --
+grant create session to bravo identified by "TOP_SECRET";
 
 -- TODO: Update profiles to prevent pwd expiry --
 -- ORA-01031: insufficient privileges - impossible on atp?
