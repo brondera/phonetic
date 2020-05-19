@@ -1,4 +1,4 @@
--- DB stuff for phonetic app, on Always Free ATP
+-- DB stuff for Bravo! demo application, on Always Free ATP
 
 -- Create db user foxtrot --
 CREATE USER foxtrot IDENTIFIED BY "TOP_SECRET";
@@ -58,7 +58,7 @@ INSERT INTO foxtrot.phonetic VALUES ('U', '**-', 'Uniform', '(YOU-NEE-FORM)');
 INSERT INTO foxtrot.phonetic VALUES ('V', '***-', 'Victor', '(VIK-TAH)');
 INSERT INTO foxtrot.phonetic VALUES ('W', '*--', 'Whiskey', '(WISS-KEY)');
 INSERT INTO foxtrot.phonetic VALUES ('X', '-**-', 'Xray', '(ECKS-RAY)');
-INSERT INTO foxtrot.phonetic VALUES ('Y', '-*--', 'Yankee', '(TANG-KEY)');
+INSERT INTO foxtrot.phonetic VALUES ('Y', '-*--', 'Yankee', '(YANG-KEY)');
 INSERT INTO foxtrot.phonetic VALUES ('Z', '--**', 'Zulu', '(ZOO-LOO)');
 commit;
 
